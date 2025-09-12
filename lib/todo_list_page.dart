@@ -7,7 +7,12 @@ class TodoListPage extends StatefulWidget {
   _TodoListPageState createState() => _TodoListPageState();
 }
 
+
 class _TodoListPageState extends State<TodoListPage> {
+  TextEditingController _textEditingController = TextEditingController();
+
+  List<String> tarefas = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,13 +23,21 @@ class _TodoListPageState extends State<TodoListPage> {
         padding: EdgeInsets.all(24),
         child: Column(
           children: [
-            TextField()
+            TextField(
+              controller: _textEditingController,
+            )
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        onPressed: () {},
+        onPressed: () {
+          if(_textEditingController.text.length > 0) {
+            tarefas.add(_textEditingController.text);
+            _textEditingController.clear();
+          }
+          print(tarefas);
+        },
         child: Icon(Icons.add),
         ),
     );
