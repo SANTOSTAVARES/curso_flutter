@@ -25,6 +25,15 @@ class _TodoListPageState extends State<TodoListPage> {
           children: [
             TextField(
               controller: _textEditingController,
+            ),
+            Container(
+              height: 400,
+              child: ListView.builder(
+                itemCount: tarefas.length,
+                itemBuilder: (context, index) {
+                  return Text(tarefas[index]);
+                }
+              ),
             )
           ],
         ),
@@ -33,7 +42,9 @@ class _TodoListPageState extends State<TodoListPage> {
         backgroundColor: Colors.green,
         onPressed: () {
           if(_textEditingController.text.length > 0) {
-            tarefas.add(_textEditingController.text);
+            setState(() {
+              tarefas.add(_textEditingController.text);
+            }); 
             _textEditingController.clear();
           }
           print(tarefas);
