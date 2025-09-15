@@ -31,7 +31,9 @@ class _TodoListPageState extends State<TodoListPage> {
               child: ListView.builder(
                 itemCount: tarefas.length,
                 itemBuilder: (context, index) {
-                  return Text(tarefas[index]);
+                  return ListTile(
+                    title: Text(tarefas[index]),
+                  );
                 }
               ),
             )
