@@ -28,7 +28,8 @@ class _TodoListPageState extends State<TodoListPage> {
             ),
             Container(
               height: 400,
-              child: ListView.builder(
+              child: ListView.separated(
+                separatorBuilder: (context, index) => Divider(),
                 itemCount: tarefas.length,
                 itemBuilder: (context, index) {
                   return ListTile(
