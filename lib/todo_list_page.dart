@@ -34,6 +34,11 @@ class _TodoListPageState extends State<TodoListPage> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(tarefas[index]),
+                    onLongPress: () {
+                      setState(() {
+                        tarefas.removeAt(index);
+                      });
+                    },
                   );
                 }
               ),
@@ -41,19 +46,34 @@ class _TodoListPageState extends State<TodoListPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.green,
-        onPressed: () {
-          if(_textEditingController.text.length > 0) {
-            setState(() {
-              tarefas.add(_textEditingController.text);
-            }); 
-            _textEditingController.clear();
-          }
-          print(tarefas);
-        },
-        child: Icon(Icons.add),
-        ),
+      floatingActionButton: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            backgroundColor: Colors.green,
+            onPressed: () {
+              if(_textEditingController.text.length > 0) {
+                setState(() {
+                  tarefas.add(_textEditingController.text);
+                }); 
+                _textEditingController.clear();
+              }
+            },
+            child: Icon(Icons.add),
+          ),
+          FloatingActionButton(
+            backgroundColor: Colors.green,
+            onPressed: () {
+                setState(() {
+                  tarefas = [];
+                }); 
+                _textEditingController.clear();
+              },
+            child: Icon(Icons.remove),
+          )
+        ],
+      ),
     );
   }
 }
