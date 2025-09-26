@@ -10,7 +10,7 @@ class OnePage extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.of(context).pushNamed('/twoPage', arguments: '123').then(
+            Navigator.of(context).pushReplacementNamed('/twoPage', arguments: '123').then(
               (value) => print(value),
               );
           },
