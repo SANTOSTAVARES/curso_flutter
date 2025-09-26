@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class TwoPage extends StatelessWidget {
-  final String args;
-  const TwoPage({Key? key, required this.args}) : super(key: key);
+  const TwoPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var args =  ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       backgroundColor: Colors.blue.shade100,
       body: Center(
