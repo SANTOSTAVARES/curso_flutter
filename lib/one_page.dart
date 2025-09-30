@@ -1,20 +1,50 @@
-import 'package:exemplo/widget/custom_button_widget.dart';
+import 'dart:math';
+import 'package:exemplo/widgets/custom_button_widget.dart';
 import 'package:flutter/material.dart';
 
-class OnePage extends StatelessWidget {
+class OnePage extends StatefulWidget {
   const OnePage({Key? key}) : super(key: key);
 
   @override
+  State<OnePage> createState() => _OnePageState();
+}
+
+class _OnePageState extends State<OnePage> {
+  ValueNotifier<int> valorAleatorio = ValueNotifier<int>(0);
+
+  random() async {
+    for (int i = 0; i < 10; i++) {
+      await Future.delayed(Duration(seconds: 1));
+      valorAleatorio.value = Random().nextInt(1000);
+    }
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+    print('build');
     return Scaffold(
       body: Center(
-        child: CustomButtonWidget(
-          disable: false,
-          onPressed: () {},
-          title: 'Custom BTN',
-          titleSize: 18,
-        ), // CustomButtonWidget
-      ), // Center
-    ); // Scaffold
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ValueListenableBuilder(
+              valueListenable: valorAleatorio,
+              builder: (_, value, __) => Text(
+                'Valor eh: $value',
+                style: TextStyle(fontSize: 20),
+              ),
+            ), // Text
+            SizedBox(height: 10),
+            CustomButtonWidget(
+              disable: false,
+              onPressed: () => random(),
+              title: 'Custom BTN',
+              titleSize: 18,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
