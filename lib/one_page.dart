@@ -12,7 +12,7 @@ class OnePage extends StatefulWidget {
 }
 
 class _OnePageState extends State<OnePage> {
-  ValueNotifier<int> valorAleatorio = ValueNotifier<int>(0);
+  ValueNotifier<List<Post>> posts = ValueNotifier<List<Post>>([]);
 
   callAPI() async {
     var client = http.Client();
@@ -21,8 +21,7 @@ class _OnePageState extends State<OnePage> {
           Uri.parse('https://jsonplaceholder.typicode.com/posts'),
           );
       var decodedResponse = jsonDecode(response.body) as List;
-      List<Post> posts = decodedResponse.map((e) => Post.fromJson(e)).toList();
-      print(posts);
+      posts.value = decodedResponse.map((e) => Post.fromJson(e)).toList();
     } finally {
       client.close();
     }
@@ -34,24 +33,30 @@ class _OnePageState extends State<OnePage> {
     print('build');
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ValueListenableBuilder(
-              valueListenable: valorAleatorio,
-              builder: (_, value, __) => Text(
-                'Valor eh: $value',
-                style: TextStyle(fontSize: 20),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ValueListenableBuilder<List<Post>>(
+                valueListenable: posts,
+                builder: (_, value, __) => ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: value.length,
+                  itemBuilder: (_, idx) => ListTile(
+                    title: Text(value[idx].title),
+                  ),
+                ),
+              ), // Text
+              SizedBox(height: 10),
+              CustomButtonWidget(
+                disable: false,
+                onPressed: () => callAPI(),
+                title: 'Custom BTN',
+                titleSize: 18,
               ),
-            ), // Text
-            SizedBox(height: 10),
-            CustomButtonWidget(
-              disable: false,
-              onPressed: () => callAPI(),
-              title: 'Custom BTN',
-              titleSize: 18,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
