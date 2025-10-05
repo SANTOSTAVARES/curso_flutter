@@ -1,5 +1,6 @@
+import 'package:exemplo/pages/login_page.dart';
+import 'package:exemplo/pages/splash_page.dart';
 import 'package:flutter/material.dart';
-import 'package:exemplo/views/one_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,13 +12,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
       theme: ThemeData(
-        primaryColor: Colors.green,
+        primarySwatch: Colors.green,
       ),
-      initialRoute: '/',
+      initialRoute: '/splash',
       routes: {
-        '/': (_) => const OnePage(),
+        '/splash': (_) => const SplashPage(),
+        '/login': (_) => const LoginPage(),
       },
     );
   }
