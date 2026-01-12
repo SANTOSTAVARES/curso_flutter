@@ -3,6 +3,7 @@ import 'package:exemplo/controllers/login_controller.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget{
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   
   LoginController _controller = LoginController();
 
@@ -32,20 +33,31 @@ class LoginPage extends StatelessWidget{
               onChanged: _controller.setPass,
             ),
             SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () {
-                _controller.auth().then(
-                  (result) {
-                    if (result) {
-                      print('success');
-                    } else {
-                      print('failed');
-                    }
-                  }
-                );
-              }, 
-              child: Text('Login'),
-              )
+            ValueListenableBuilder<bool>(
+              valueListenable: _controller.inLoader,
+              builder: (_, inLoader, __) => inLoader
+                ? CircularProgressIndicator()
+                : ElevatedButton(
+                  onPressed: () {
+                    _controller.auth().then(
+                      (result) {
+                        if (result) {
+                          Navigator.of(context).pushReplacementNamed('/home');
+                        } else {
+                         ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: 
+                              const Text('Falha ao realizar login'),
+                            duration: const Duration(seconds: 5),
+                          ),
+                         );
+                        }
+                      },
+                    );
+                }, 
+                child: Text('Login'),
+              ),
+            )
           ],
         ),
       ),
